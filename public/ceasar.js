@@ -1,33 +1,3 @@
-var exp = require('express');
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-
-app.get('/', function(req, res){
-	res.sendFile(__dirname + '/index.html');
-});
-
-app.use(exp.static(__dirname + '/public'));
-
-io.on('connection', function(socket){
-	console.log('Un usuario se ha conectado');
-	socket.on('disconnect', function(){
-		console.log('Un usuario se ha desconectado');
-	});
-	socket.on('chat message', function(key){
-		var msg = encrypt(key, 6, ">");
-		console.log('key: ' + key);
-		console.log('msg: ' + msg);
-		io.emit('chat message', msg);
-	});
-
-});
-
-
-http.listen(3000, function(){
-	console.log('Escuchando en *:3000');
-});
-
 function encrypt(inputString, shiftedpositions, direction) {
   //Abecedario
   var ABC = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','ñ','o','p','q','r','s','t','u','v','w','x','y','z'];

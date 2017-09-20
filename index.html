@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 	<head>
@@ -5,16 +6,22 @@
 		<link rel="stylesheet" type="text/css" href="/style.css">
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+		<script src="/ceasar.js"></script>
 		<script> 
 			$(function () {
 				var socket = io();
 				$('form').submit(function(){
-					socket.emit('chat message', $('#m').val());
+					var key = encrypt($('#m').val(), 6, "<");
+					
+					socket.emit('chat message', key);
 					$('#m').val('');
 					return false;
 				}); 	
-				socket.on('chat message', function(msg){
-      				$('#messages').append($('<li>').text(msg));
+				socket.on('chat message', function(key){
+					console.log('key ' + key);
+					var msg = encrypt(key, 6, ">");
+      				$('#messages').append($('<li>').text(key));
+      				console.log('msg ' + msg);
     			});
 			});
 		</script>
@@ -24,5 +31,5 @@
 		<form action="">
 			<input id="m" autocomplete="off"/><button>Enviar</button>
 		</form>
-	</body>
+	</body>                       
 </html>
