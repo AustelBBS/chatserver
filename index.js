@@ -15,7 +15,7 @@ io.on('connection', function(socket){
 		console.log('Un usuario se ha desconectado');
 	});
 	socket.on('chat message', function(key){
-		var msg = encrypt(key, 6, ">");
+		var msg = encrypt(key, -6);
 		console.log('key: ' + key);
 		console.log('msg: ' + msg);
 		io.emit('chat message', msg);
@@ -27,7 +27,20 @@ io.on('connection', function(socket){
 http.listen(3000, function(){
 	console.log('Escuchando en *:3000');
 });
+function encrypt (inputString, shiftedpositions){
+  var salida = "";
+  var oldASCII; //donde se guarda el codigo ascii de una letra
+  var newASCII;//codigo ascii resultante luego de sumarle shiftedpositions
+  //por cada letra de la entrada
+  for(var c = 0; c < inputString.length; c++){
+    oldASCII = inputString[c].charCodeAt();//obtenemos su codigo
+    newASCII = oldASCII + shiftedpositions;//desplazamos de lugar la letra al sumarle shiftedpositions
+    salida = salida.concat(String.fromCharCode(newASCII));//convertimos el nuevo codigo a string y concatenamos
+  }
+  return salida;
+}
 
+/*
 function encrypt(inputString, shiftedpositions, direction) {
   //Abecedario
   var ABC = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','ñ','o','p','q','r','s','t','u','v','w','x','y','z'];
@@ -94,4 +107,4 @@ function encrypt(inputString, shiftedpositions, direction) {
     //excepciones aqui
     return "Parametro incorrecto";
   }
-}
+}*/

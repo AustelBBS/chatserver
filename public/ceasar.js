@@ -1,14 +1,4 @@
-function encrypt (inputString, shiftedpositions, direction){
-  if(direction === '>'){
-    //encriptar normal, nada que hacer
-    shiftedpositions = shiftedpositions
-  } else if (direction === '<') {
-    //desencriptar, lo mismo pero con - shiftedpositions
-    shiftedpositions = (-1) * shiftedpositions
-  }
-  else {
-    return "Error, direction can be either > or <.";
-  }
+function encrypt (inputString, shiftedpositions){
   var salida = "";
   var oldASCII; //donde se guarda el codigo ascii de una letra
   var newASCII;//codigo ascii resultante luego de sumarle shiftedpositions
