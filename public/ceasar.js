@@ -1,3 +1,9 @@
+function getSeed () {
+  var num = Math.floor(Math.random()*15) + 1; 
+  num *= Math.floor(Math.random()*2) == 1 ? 1 : -1; 
+  return num;
+}
+
 function encrypt (inputString, shiftedpositions){
   var salida = "";
   var oldASCII; //donde se guarda el codigo ascii de una letra

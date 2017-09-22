@@ -18,6 +18,7 @@ io.on('connection', function(socket){
   
   socket.on('seed', function(s){
     seed = s;
+    console.log('seed: ' +  seed);
   });
 	
   socket.on('chat message', function(key){
