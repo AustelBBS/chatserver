@@ -2,6 +2,7 @@ var exp = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var seed;
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
@@ -14,8 +15,13 @@ io.on('connection', function(socket){
 	socket.on('disconnect', function(){
 		console.log('Un usuario se ha desconectado');
 	});
-	socket.on('chat message', function(key){
-		var msg = encrypt(key, -6);
+  
+  socket.on('seed', function(s){
+    seed = s;
+  });
+	
+  socket.on('chat message', function(key){
+		var msg = encrypt(key, -seed);
 		console.log('key: ' + key);
 		console.log('msg: ' + msg);
 		io.emit('chat message', msg);
@@ -27,6 +33,7 @@ io.on('connection', function(socket){
 http.listen(3000, function(){
 	console.log('Escuchando en *:3000');
 });
+
 function encrypt (inputString, shiftedpositions){
   var salida = "";
   var oldASCII; //donde se guarda el codigo ascii de una letra
