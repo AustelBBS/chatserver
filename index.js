@@ -35,7 +35,7 @@ io.on('connection', function(socket){
       var ind = msg.indexOf(' ');
       if(ind !== -1) {
         var nick = msg.substr(0, ind);
-        msg = msg.substr(ind+1);
+        msg = msg.substr(ind);
         if(nick in users) {
           users[nick].emit('whisper', user, msg);
           console.log('User is being sneaky');
