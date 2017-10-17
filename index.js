@@ -20,12 +20,13 @@ io.on('connection', function(socket){
     console.log(name +' se ha conectado');
     users[socket.nickname] = socket;
     updateUsers();    
-    socket.once('disconnect', function(){
+  });
+
+  socket.on('disconnect', function(){
       if(!socket.nickname) return;
       delete users[socket.nickname];
       updateUsers();
     });
-  });
 
   socket.on('chat message', function(user, msg){
     msg = msg.trim();
