@@ -36,3 +36,9 @@ form button {
 #messages li:nth-child(odd) {
     background: #eee;
 }
+
+.userList{
+    font-style: italic;
+    font-weight: bold;
+    font-size: 10px;
+}

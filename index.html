@@ -11,20 +11,29 @@
 			$(function () {
 				var seed = 0;
 				var socket = io();
-				console.log('apunto de emitir user handle');
-				socket.emit('adduser','omarweb');
+				var handle = 'web client';
+				socket.emit('adduser', handle);
+				var onlineUsers = [handle];
 				$('form').submit(function(){
 					var s = getSeed();
 					//var key = encrypt($('#m').val(), s);
 					socket.emit('seed', s);
-					socket.emit('chat message', 'omarweb', $('#m').val() );
+					socket.emit('chat message', handle, $('#m').val() );
 					$('#m').val('');
 					return false;
 				}); 	
 				socket.on('chat message', function(handle, msg){
 					//console.log();
-      				$('#messages').append($('<li>').text(handle + ':' + msg));
+      				$('#messages').append($('<li>').text(handle + ': ' + msg));
       				//console.log('msg ' + msg);
+    			});
+    			socket.on('updateUsers', function(userList){
+    				userList.forEach(function(user, at){
+    					if (!onlineUsers.includes(user)) {
+    						onlineUsers = onlineUsers.concat(user)
+    					}
+    				});
+    				$('#messages').append($('<li>', {"class":'userList'}).text(onlineUsers));
     			});
 			});
 		</script>
