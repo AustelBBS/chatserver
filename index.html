@@ -11,23 +11,20 @@
 			$(function () {
 				var seed = 0;
 				var socket = io();
+				console.log('apunto de emitir user handle');
+				socket.emit('adduser','omarweb');
 				$('form').submit(function(){
 					var s = getSeed();
-					var key = encrypt($('#m').val(), s);
+					//var key = encrypt($('#m').val(), s);
 					socket.emit('seed', s);
-					socket.emit('chat message', key);
+					socket.emit('chat message', 'omarweb', $('#m').val() );
 					$('#m').val('');
 					return false;
 				}); 	
-				socket.on('chat message', function(key){
-					console.log('key ' + key);
-					var msg = encrypt(key, -seed);
-      				$('#messages').append($('<li>').text(key));
-      				console.log('msg ' + msg);
-    			});
-    			socket.on('seed', function(s){
-					seed = s;
-					console.log('seed = ' + s);
+				socket.on('chat message', function(handle, msg){
+					//console.log();
+      				$('#messages').append($('<li>').text(handle + ':' + msg));
+      				//console.log('msg ' + msg);
     			});
 			});
 		</script>

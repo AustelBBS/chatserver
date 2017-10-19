@@ -8,6 +8,7 @@ var users = {};
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
+  
 });
 
 app.use(exp.static(__dirname + '/public'));
