@@ -39,7 +39,7 @@ io.on('connection', function(socket){
         msg = msg.substr(ind);
         if(nick in users) {
           users[nick].emit('whisper', user, msg);
-          console.log('User is being sneaky');
+          console.log('User:' + user +' is being sneaky');
         } else {
           console.log('Error, nickname not in array');
         }

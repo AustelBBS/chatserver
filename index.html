@@ -11,7 +11,7 @@
 			$(function () {
 				var seed = 0;
 				var socket = io();
-				var handle = 'web client';
+				var handle = 'web_client';
 				socket.emit('adduser', handle);
 				var onlineUsers = [handle];
 				$('form').submit(function(){
@@ -27,13 +27,17 @@
       				$('#messages').append($('<li>').text(handle + ': ' + msg));
       				//console.log('msg ' + msg);
     			});
+    			socket.on('whisper', function(handle, msg){
+      				$('#messages').append($('<li>',{"class":'whisperMsg'}).text(handle + ' whispers: ' + msg));
+      				//console.log('msg ' + msg);
+    			});
     			socket.on('updateUsers', function(userList){
     				userList.forEach(function(user, at){
     					if (!onlineUsers.includes(user)) {
     						onlineUsers = onlineUsers.concat(user)
     					}
     				});
-    				$('#messages').append($('<li>', {"class":'userList'}).text(onlineUsers));
+    				$('#messages').append($('<li>', {"class":'userList'}).text('online: ' + onlineUsers));
     			});
 			});
 		</script>

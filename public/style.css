@@ -41,4 +41,12 @@ form button {
     font-style: italic;
     font-weight: bold;
     font-size: 10px;
+    color: green;
+}
+
+.whisperMsg{
+    font-style: italic;
+    font-weight: bold;
+    font-size: 10px;
+    color: blue;
 }
