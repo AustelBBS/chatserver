@@ -11,23 +11,33 @@
 			$(function () {
 				var seed = 0;
 				var socket = io();
+				var handle = 'web_client';
+				socket.emit('adduser', handle);
+				var onlineUsers = [handle];
 				$('form').submit(function(){
 					var s = getSeed();
-					var key = encrypt($('#m').val(), s);
+					//var key = encrypt($('#m').val(), s);
 					socket.emit('seed', s);
-					socket.emit('chat message', key);
+					socket.emit('chat message', handle, $('#m').val() );
 					$('#m').val('');
 					return false;
 				}); 	
-				socket.on('chat message', function(key){
-					console.log('key ' + key);
-					var msg = encrypt(key, -seed);
-      				$('#messages').append($('<li>').text(key));
-      				console.log('msg ' + msg);
+				socket.on('chat message', function(handle, msg){
+					//console.log();
+      				$('#messages').append($('<li>').text(handle + ': ' + msg));
+      				//console.log('msg ' + msg);
     			});
-    			socket.on('seed', function(s){
-					seed = s;
-					console.log('seed = ' + s);
+    			socket.on('whisper', function(handle, msg){
+      				$('#messages').append($('<li>',{"class":'whisperMsg'}).text(handle + ' whispers: ' + msg));
+      				//console.log('msg ' + msg);
+    			});
+    			socket.on('updateUsers', function(userList){
+    				userList.forEach(function(user, at){
+    					if (!onlineUsers.includes(user)) {
+    						onlineUsers = onlineUsers.concat(user)
+    					}
+    				});
+    				$('#messages').append($('<li>', {"class":'userList'}).text('online: ' + onlineUsers));
     			});
 			});
 		</script>

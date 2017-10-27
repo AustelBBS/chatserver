@@ -8,6 +8,7 @@ var users = {};
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
+  
 });
 
 app.use(exp.static(__dirname + '/public'));
@@ -29,6 +30,7 @@ io.on('connection', function(socket){
     });
 
   socket.on('chat message', function(user, msg){
+    console.log('user: ' + user + '  msg: ' + msg );
     msg = msg.trim();
     if(msg.substr(0, 3) === '/w ') {
       msg = msg.substr(3);
@@ -38,7 +40,8 @@ io.on('connection', function(socket){
         msg = msg.substr(ind);
         if(nick in users) {
           users[nick].emit('whisper', user, msg);
-          console.log('User is being sneaky');
+          users[user].emit('whisper', user, msg)
+          console.log('User:' + user +' is being sneaky');
         } else {
           console.log('Error, nickname not in array');
         }
@@ -47,8 +50,7 @@ io.on('connection', function(socket){
       }
     } else {
       io.emit('chat message', user, msg);  
-    }
-    console.log('msg: ' + msg);
+    }    
   });
 
 });
